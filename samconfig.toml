@@ -2,3 +2,12 @@ version=0.1
 [default.build.parameters]
 build_image = ["al-graalvm:gradle"]
 use_container = true
+
+[default.deploy.parameters]
+stack_name = "test-function"
+resolve_s3 = true
+s3_prefix = "test-function"
+region = "us-east-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+image_repositories = []

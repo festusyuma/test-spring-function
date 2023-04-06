@@ -1,7 +1,9 @@
-FROM amazonlinux:2023 as graalvm
+FROM amazonlinux:2 as graalvm
 
 RUN yum update -y
-RUN yum install -y tar wget gzip glibc-devel zlib-devel zlib gcc libstdc++-static
+RUN yum install -y wget unzip tar gzip bzip2-devel ed gcc gcc-c++ gcc-gfortran \
+        less libcurl-devel openssl openssl-devel readline-devel xz-devel \
+        zlib-devel glibc-static libcxx libcxx-devel llvm-toolset-7 zlib-static
 
 ENV JAVA_VERSION="java17"
 ENV GRAAL_VERSION="22.3.1"
@@ -24,7 +26,9 @@ RUN mv $GRADLE_FOLDERNAME /usr/lib/gradle
 RUN rm $GRALE_FILENAME
 
 # AWS Lambda Builders
-RUN curl -L get-pip.io | python3
+RUN amazon-linux-extras enable python3.8
+RUN yum clean metadata && yum -y install python3.8
+RUN curl -L get-pip.io | python3.8
 RUN pip3 install aws-lambda-builders
 
 VOLUME /project
