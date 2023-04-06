@@ -1,0 +1,20 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+
+Globals:
+  Function:
+    Timeout: 20
+    Runtime: provided
+    MemorySize: 256
+    Architectures:
+      - x86_64
+    Tracing: Active # https://docs.aws.amazon.com/lambda/latest/dg/lambda-x-ray.html
+
+Resources:
+  TestSpringFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: none #We don't need to define a handler because Custom Runtime uses an internal API to communicate with our application
+    Metadata:
+      BuildMethod: makefile #Instruct SAM how to build application.
